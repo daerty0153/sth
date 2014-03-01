@@ -5,7 +5,8 @@
 	<link rel="stylesheet" type="text/css" href="styles/animate.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="styles/animateanimo.css" media="screen" />
 	<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
-	<script src="js/master.js"></script>
+	<script src="js/jquery.keyframes.js"></script>
+
 	<script type="text/javascript" src="js/jquery.transit.min.js"></script>
 	<script type="text/javascript" src="js/novacancy.js"></script>
 	<script type="text/javascript" src="js/lettering.js"></script>
@@ -21,14 +22,44 @@
 	<div id="masterContent">
 		<!-- JS appends goes here-->
 	</div>
+		<script src="js/master.js"></script>
 	<script>
+	$(document).ready(function(){
+
+
+
 	lines = [];
 	time = [5.22,5.17,5.12];
-	lines.push("I ain't gonna be just a face in the crowd");
-    lines.push("You're gonna hear my voice");
-    lines.push("It's My Life");
+	lines.length = 0;
+	lines.push("Written by");
+lines.push("awe@warehouse dept");
+lines.push("This ain't a song for the broken-hearted ");
+lines.push("No silent prayer for the faith-departed ");
+lines.push("I ain't gonna be just a face in the crowd ");
+lines.push("You're gonna hear my voice ");
+lines.push("When I shout it out loud ");
+lines.push("00:38.58]I ain't gonna live forever ");
+lines.push("00:42.58]I just want to live while I'm alive ");
+lines.push("00:47.58](It's my life) ");
+lines.push("00:51.06]My heart is like an open highway ");
+lines.push("00:54.62]Like Frankie said I did it my way ");
+lines.push("00:58.97]I just wanna live while I'm alive ");
+lines.push("01:03.79]It's my life ");
+lines.push("01:07.43]This is for the ones who stood their ground ");
+lines.push("01:19.10]For Tommy and Gina who never backed down ");
+lines.push("01:26.55]Tomorrow's getting harder make no mistake ");
+lines.push("01:33.92]Luck ain't even lucky Got to make your own breaks ");
+lines.push("01:38.96]It's my life ");
+lines.push("01:41.76]And it's now or never ");
+lines.push("01:44.68]I ain't gonna live forever ");
+lines.push("01:48.74]I just want to live while I'm alive ");
+lines.push("01:53.56](It's my life) ");
+lines.push("01:57.15]My heart is like an open highway ");
+lines.push("02:00.71]Like Frankie said I did it my way ");
+lines.push("02:05.01]I just want to live while I'm alive ");
+lines.push("02:09.78]'Cause it's my life ");
     masterVideoStart(lines,time);
-
+});
 	</script>
 </body>
 </html>

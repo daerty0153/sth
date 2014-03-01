@@ -7,12 +7,21 @@ html,body
 	height:100%;
 	font-size:32px;
 }
+
+/*Fonts */
+@font-face
+{
+	font-family: Odessa;
+	src: url('Odessa.ttf');
+}
+
 @font-face {
 	font-family: Aragones;
 	src: url(Fonts/Aragones.ttf);
 }
 
-@font-face {
+@font-face
+{
 	font-family: breakaway;
 	src: url(Fonts/breakaway.ttf);
 }
@@ -31,6 +40,7 @@ html,body
 	font-family: GramophoneShadedNF;
 	src: url(Fonts/GramophoneShadedNF.ttf);
 }
+
 
 #masterContent
 {
@@ -60,11 +70,7 @@ html,body
 	width:400px;
 }
 
-@font-face
-{
-font-family: Odessa;
-src: url('Odessa.ttf');
-}
+
 
 .pulse {
 	-webkit-animation: pulse 1s linear infinite;

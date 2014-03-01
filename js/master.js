@@ -1,21 +1,65 @@
-		var function_list=[
+
+var function_list=[
 		"script1","script2","script3","script4","script5","script11","script12","script13"
 		];
 function masterVideoStart(lines,times)
 {
-
+	for(y=0;y<lines.length;y++)
+		times[y]= Math.random()*4+3;
 	$m = $("#masterContent");
-	animation_queue = [];
+	animation_queue = []; 
+	anim_funcs = ["arc_text_5_10","pulsate_2_4","flashtext_5_10","multi_dir_fade_5_10","script3","script4","script11","script12","script13"]
 	for(z=0;z<lines.length;z++)
 	{	console.log(z);
 		// animation_queue.push(arc_text_5_10($m,lines[z],times[z],z));
+		r = parseInt(Math.random()*anim_funcs.length)
+		if(r==0)
+		animation_queue.push(arc_text_5_10($m,lines[z],times[z],z));
+		else if(r==1)
+		animation_queue.push(pulsate_2_4($m,lines[z],times[z],z));
+	
+	else if(r==2)
+		animation_queue.push(flashtext_5_10($m,lines[z],times[z],z));
+	else if(r==3)
 		animation_queue.push(multi_dir_fade_5_10($m,lines[z],times[z],z));
+	else if (r>=4)
+	{	temp_killer=[];
+		temp_killer.val = "kh_animate"
+		temp_killer.line = lines[z];
+		temp_killer.time = times[z];
+		temp_killer.anim_func = anim_funcs[r];
+		animation_queue.push(temp_killer);
+	}
+	
 
 	}
 	console.log(animation_queue);
 		do_animate(animation_queue,0);
 }
-
+function kh_animate(line,time,key){	
+	console.log(line+" "+time+" "+key);
+		switch(key){
+			case "script3":
+				script3(line,parseInt(time)*1000);
+			break;
+			case "script4":
+				script4(line,parseInt(time)*1000);
+			break;
+			case "script5":
+				script5(line,parseInt(time)*1000);
+			break;
+			case "script11":
+				script11(line,parseInt(time)*1000);
+			break;
+			case "script12":
+				script12(line,parseInt(time)*1000);
+			break;
+			case "script13":
+				script13(line,parseInt(time)*1000);
+				break;
+		}
+	
+}
 function arc_text_5_10($m,line,time,idx)
 {	
 	words=line.split(" ");
@@ -40,6 +84,7 @@ function arc_text_5_10($m,line,time,idx)
 }
 function anim_arc_text_5_10(line,time)
 {	
+	console.log("in function anim_arc_text_5_10");
 	$("#"+line+"div1").removeClass("no-display");
 	console.log(Math.floor((Math.random()*300)+120));
 	console.log("#"+line);
@@ -78,22 +123,40 @@ function anim_arc_text_5_10(line,time)
 }
 function do_animate(animation_queue,prev_time)
 {	obj = animation_queue[0];
-	console.log(parseInt(prev_time*1000));
 	animation_queue = animation_queue.splice(1);
-	// console.log(animation_queue);
+	 console.log(animation_queue);
+	 console.log(obj);
+	 console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+prev_time);
 	// return 0;
+	if(obj.anim_func)
+	{
+		setTimeout(kh_animate,parseInt(prev_time*1000),obj.line,obj.time,obj.anim_func)
+	}
 	if(obj.val=="arc_text_5_10")
-		setTimeout(anim_arc_text_5_10,parseInt(prev_time*1000),obj.key,obj.time);
+		{
+			setTimeout(anim_arc_text_5_10,parseInt(prev_time*1000),obj.key,obj.time);
+			
+		}
+
 	if(obj.val=="pulsate_2_4")
+	{
 		setTimeout(anim_pulsate_2_4,parseInt(prev_time*1000),obj.key,obj.time);
-	if(obj.val=="textillate_5_10")
-		setTimeout(anim_textillate_5_10,parseInt(prev_time*1000),obj.key,obj.time);
+		console.log("calling function pulsate_2_4");
+	}
+
+
 	if(obj.val== "flashtext_5_10")
+	{
 		setTimeout(anim_flashtext_5_10,parseInt(prev_time*1000),obj.key,obj.time);
+		
+	}
+
 	if(obj.val=="multi_dir_fade_5_10")
-		setTimeout(anim_multi_dir_fade_5_10,parseInt(prev_time*1000),obj.key,obj.time);
-
-
+		{
+			setTimeout(anim_multi_dir_fade_5_10,parseInt(prev_time*1000),obj.key,obj.time);
+			
+		}
+	
 	prev_time += obj.time;
 	// console.log(animation_queue.length);
 	if (animation_queue.length >=1)
@@ -104,6 +167,7 @@ function do_animate(animation_queue,prev_time)
 //GG
 function pulsate_2_4($m,line,time,idx)
 {
+	
 	console.log(line);
 	$("#masterContent").append("<div id='line"+idx+"' class='no-display'>"+line+"</div>");
 	temp_obj=[];
@@ -113,6 +177,7 @@ function pulsate_2_4($m,line,time,idx)
 	return temp_obj;
 }
 function anim_pulsate_2_4(line,time){
+	console.log("calling function pulsate_2_4");
 	// Chorus function
 	$("#"+line).removeClass("no-display");
 	neonGlow(line);
@@ -135,25 +200,7 @@ function neonGlow(line){
   // setTimeout(function (){$("#"+line).hide(); }, 3000);
 }
 
-//Saloni
-function textillate_5_10($m,line,time,idx){
-$("#masterContent").append("<div id='line"+idx+"' class='no-display'>"+line+"</div>");
-	temp_obj=[];
-	temp_obj.key = "line"+idx;
-	temp_obj.val ="textillate_5_10";
-	temp_obj.time = time;
-	return temp_obj;
-}
 
-function anim_textillate_5_10(line,time) {
-	$("#"+line).removeClass("no-display");
-	$('#'+line).fitText(0.6).textillate({
-		autoStart : true,
-		loop : false,
-		minDisplayTime : 14000,
-	});
-	setTimeout(function(){$("#"+line).addClass("no-display")},parseInt(time*1000))
-}
 
 function flashtext_5_10($m,line,time,idx){
 	words=line.split(" ");
@@ -169,6 +216,7 @@ $("#masterContent").append("<div id='line"+idx+"' class='no-display'>"+d1+"</div
 }
 
 function anim_flashtext_5_10(line,time) {
+	console.log("calling function anim_flashtext_5_10");
 	$("#"+line).removeClass("no-display");
 	count = $("#"+line).children().length;
 	$("#"+line).auderoFlashingText({
@@ -184,25 +232,26 @@ function anim_flashtext_5_10(line,time) {
 }
 
 function FadeOutAnimation(line,index,time){
-
+// parseInt(time*1000/count)
 	var animationarray = new Array("fadeOutLeft","fadeOutUp","fadeOutDown","fadeOutLeft","fadeOutRight");
 	var count = $("#"+line).children().length;
-
 	var element = $($("#"+line).children()[index]);
 	rand_index = parseInt(Math.random()*animationarray.length);
 	// hingeEffect(element);
 	$(element).animo({
 			animation : animationarray[rand_index],
-			duration : parseInt(time*1000/count),
+			duration :5.0,
 			fadeOut:0,
 			fadeIn:0,
 			keep:true
 	});
 	if (count != index+1)
-		FadeOutAnimation(line,index+1);
+		FadeOutAnimation(line,index+1,time);
 }
+
 function anim_multi_dir_fade_5_10(line,time)
 {
+	console.log("calling function multi_dir_fade_5_10");
 	$("#"+line).removeClass("no-display");
 	FadeOutAnimation(line,0,time);	
 	setTimeout(function(){$("#"+line).addClass("no-display")},parseInt(time*1000))
@@ -252,6 +301,7 @@ function hingeEffect(element){
 }
 
 
+
 //Shubham
 
 function script3(data,time){				//For small line
@@ -265,8 +315,7 @@ function script3(data,time){				//For small line
     		}
 });
 		var h1="<div class='script3'>"+data+"</div>";
-			$("#stage").append(h1);
-			transform=vendorPrefix+'transform';
+			$("#masterContent").append(h1);
 			$('.script3').css({'top':'220px','left':'200px','overflow':'hidden','display':'block','position':'absolute','font-size':'75px'});
 			$('.script3').playKeyframe({
    				name: 'ball-roll', // name of the keyframe you want to bind to the selected element
@@ -291,8 +340,8 @@ function script3(data,time){				//For small line
 			'100%':{'top':'40','bottom':'','left':'','right':''}
 		}]);
 		var h1="<div class='script4'>"+data+"</div>";
-			$("#stage").append(h1);
-			transform=vendorPrefix+'transform';
+			$("#masterContent").append(h1);
+
 			$('.script4').css({'font-size':'42px','position':'absolute'});
 			$('.script4').playKeyframe({
    				name: 'script4', // name of the keyframe you want to bind to the selected element
@@ -320,7 +369,7 @@ function script3(data,time){				//For small line
 		}]);
 
 		var h1="<div class='script5'>"+data+"</div>";
-		$('#stage').append(h1);
+		$('#masterContent').append(h1);
 
 		 $('.script5').playKeyframe({
 		 	name:'out-of-the-box',
@@ -339,7 +388,7 @@ function script3(data,time){				//For small line
 
 	function script6(data,time){
 		var h1="<div class='script6'>"+data+"</div>";
-		$("#stage").append(h1);
+		$("#masterContent").append(h1);
 		$('.script6').css({"position":"absolute","right":"50px","top":"50px","font-size":"12px"});
 		$('.script6').animate({top:100,"font-size":"320px"},time,function(){
 			remove_1("script6");
@@ -347,7 +396,7 @@ function script3(data,time){				//For small line
 	}
 	function script7(data,time){
 		var h1="<div class='script7'>"+data+"</div>";
-		$("#stage").append(h1);
+		$("#masterContent").append(h1);
 		$('.script7').css({"position":"absolute","right":"50px","bottom":"50px","font-size":"12px"});
 		$('.script7').animate({top:100,"font-size":"320px"},time,function(){
 			remove_1("script7");
@@ -355,7 +404,7 @@ function script3(data,time){				//For small line
 	}
 	function script8(data,time){
 		var h1="<div class='script8'>"+data+"</div>";
-		$("#stage").append(h1);
+		$("#masterContent").append(h1);
 		$('.script8').css({"position":"absolute","left":"50px","bottom":"50px","font-size":"12px"});
 		$('.script8').animate({top:100,"font-size":"320px"},2000,function(){
 			remove_1("script8");
@@ -373,8 +422,7 @@ function script3(data,time){				//For small line
     		}
 });
 		var h1="<div class='script11'>"+data+"</div>";
-			$("#stage").append(h1);
-			transform=vendorPrefix+'transform';
+			$("#masterContent").append(h1);
 			$('.script11').css({'top':'220px','left':'180px','overflow':'hidden','display':'block','position':'absolute','font-size':'32px'});
 			$('.script11').playKeyframe({
    				name: 'scaling', // name of the keyframe you want to bind to the selected element
@@ -402,8 +450,8 @@ function script3(data,time){				//For small line
     		}
 });
 		var h1="<div class='script12'>"+data+"</div>";
-			$("#stage").append(h1);
-			transform=vendorPrefix+'transform';
+			$("#masterContent").append(h1);
+
 			$('.script12').css({'top':'220px','left':'150px','overflow':'hidden','display':'block','position':'absolute','font-size':'32px'});
 			$('.script12').playKeyframe({
    				name: 'scaling', // name of the keyframe you want to bind to the selected element
@@ -422,7 +470,7 @@ function script3(data,time){				//For small line
 
 	function script13(data,time){					// For short durations
 		var h1="<div class='script13'>"+data+"</div>";
-		$("#stage").append(h1);
+		$("#masterContent").append(h1);
 		$('.script13').css({"position":"absolute","left":"50px","top":"50px","font-size":"75px","display":"none"});
 		$('.script13').slideDown(time/2,function(){
 			setTimeout(function(){
